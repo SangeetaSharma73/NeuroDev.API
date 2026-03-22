@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const errorHandler = (
-  error: Error,
+export const errorMiddleware = (
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  res.status(500).json({
+  console.error(err);
+
+  res.status(err.statusCode || 500).json({
     success: false,
-    message: error.message || 'Internal Server error'
+    message: err.message || 'Internal Server Error'
   });
 };

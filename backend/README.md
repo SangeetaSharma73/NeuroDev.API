@@ -337,3 +337,141 @@ npm install dotenv
 
 6️⃣ Use DB Connection in server.ts
 7️⃣ Run the project
+
+17. Todo API Creation
+
+1️⃣ Todo Model : I have created a simple todo model to demonstrate how to create a model , define the schema of the model and connect it to the database.
+
+src/models/todo.model.ts
+
+2️⃣ Create services to handle the business logic of the application.
+
+src/services/todo.service.ts
+
+3️⃣ Create controllers to handle the incoming requests and send responses.
+
+src/controllers/todo.controller.ts
+
+4️⃣ Create routes to define the endpoint of the app.
+
+src/routes/todo.routes.ts
+
+5️⃣Validate the incoming request data using middleware and validations.
+
+src/middleware/validation.middleware.ts
+
+6️⃣ Handle errors using error handling middleware.
+
+src/middleware/error.middleware.ts
+
+7️⃣ Connect the routes to the app.
+
+src/app.ts
+
+18. Auth API Creation
+
+1️⃣ Model (Database layer)
+
+- src/models/user.model.ts
+- Define schema, structure, DB connection
+
+2️⃣ Utilities
+
+- src/utils/jwt.util.ts
+- Helper functions like token generation/verification
+
+3️⃣ Services (Business logic)
+
+- src/services/auth.service.ts
+- Talks to model + handles logic (login, signup, etc.)
+
+4️⃣ Controllers (Request/Response layer)
+
+- src/controllers/auth.controller.ts
+- Calls services, returns response
+
+5️⃣ Middleware
+
+- validation.middleware.ts
+- auth.middleware.ts
+- error.middleware.ts
+
+6️⃣ Routes
+
+- src/routes/auth.routes.ts
+- Connect endpoints to controllers + middleware
+
+7️⃣ App entry
+
+- src/app.ts
+- Register routes, middleware, start server
+
+8️⃣ Actual Runtime Flow (VERY IMPORTANT)
+
+When a request hits your server, this is the real flow:
+
+```txt
+Client Request
+   ↓
+app.ts
+   ↓
+Routes (auth.routes.ts)
+   ↓
+Middleware (validation / auth)
+   ↓
+Controller (auth.controller.ts)
+   ↓
+Service (auth.service.ts)
+   ↓
+Model (user.model.ts) / Database
+   ↓
+Service
+   ↓
+Controller
+   ↓
+Response to Client
+```
+
+18. Signup with Google OAuth
+
+1️⃣ Install Required Packages
+
+```bash
+npm install passport passport-google-oauth20 express-session
+npm install -D @types/passport @types/passport-google-oauth20 @types/express-session
+```
+
+2️⃣ Configure Passport
+
+src/config/passport.ts
+
+3️⃣ Create Auth Routes
+
+src/routes/auth.routes.ts
+
+4️⃣ Create Auth Controller
+
+src/controllers/auth.controller.ts
+
+5️⃣ Create User Model ( if not already created)
+
+src/models/user.model.ts
+
+6️⃣ Update App.ts
+
+src/app.ts
+
+7️⃣ Run the Project
+
+```bash
+npm run dev
+```
+
+8️⃣ Test the Flow
+Open in browser:
+
+```
+http://localhost:5000/api/auth/google
+```
+
+This will redirect you to Google for authentication. After successful login, it will redirect back to your app with user info.
