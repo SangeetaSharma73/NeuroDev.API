@@ -9,6 +9,6 @@ export const signupSchema = z.object({
 
 //login schema
 export const loginSchema = z.object({
-  email: z.string().email('Invalid Email'),
+  email: z.email('Invalid Email'),
   password: z.string().min(6, 'Password must be atleast 6 chars')
 });

@@ -14,24 +14,20 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  
+
   // Crucial for ESLint Flat Config (`eslint.config.mjs`) support
   "eslint.useFlatConfig": true,
 
   // Tell ESLint what file types it should actively validate
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
   // -----------------------------------------------------------
   // 3. Typescript Specifics
   // -----------------------------------------------------------
-  // Prettier takes care of standard formatting, ESLint fixes imports. 
+  // Prettier takes care of standard formatting, ESLint fixes imports.
   // Let's ensure VS Code's built-in TS formatter doesn't conflict.
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "cSpell.words": ["neurodev"]
 }

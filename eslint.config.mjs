@@ -21,7 +21,9 @@ export default defineConfig([
   {
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ['vitest.config.ts']
+        },
         tsconfigRootDir: import.meta.dirname
       },
       globals: {
@@ -32,6 +34,9 @@ export default defineConfig([
 
     settings: {
       'import/resolver': {
+        typescript: {
+          project: './tsconfig.json'
+        },
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx']
         }
@@ -114,6 +119,16 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/explicit-function-return-type': 'warn'
+    }
+  },
+
+  {
+    files: ['tests/**/*.ts', '**/*.test.ts', 'vitest.config.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'import/no-unresolved': 'off',
+      'n/no-missing-import': 'off',
+      'security/detect-object-injection': 'off'
     }
   },
 
