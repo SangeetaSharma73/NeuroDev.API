@@ -1,7 +1,7 @@
 import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Profile, Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oauth20';
 
-import User from '../models/user.model';
+import User, { IUser } from '../models/user.model';
 
 passport.use(
   new GoogleStrategy(
@@ -11,10 +11,15 @@ passport.use(
       callbackURL: 'http://localhost:8080/api/auth/google/callback'
     },
 
-    async (_accessToken, _refreshToken, profile, done) => {
+    async (
+      _accessToken: string,
+      _refreshToken: string,
+      profile: Profile,
+      done: VerifyCallback
+    ): Promise<void> => {
       try {
         // 1️⃣ Check if user exists
-        let user = await User.findOne({ googleId: profile.id });
+        let user: IUser | null = await User.findOne({ googleId: profile.id });
 
         // 2️⃣ If not → create user
         if (!user) {
@@ -26,16 +31,26 @@ passport.use(
         }
 
         // 3️⃣ Return user
-        done(null, user);
-      } catch (error) {
-        done(error, null);
+        done(null, user || false);
+      } catch (error: unknown) {
+        done(error instanceof Error ? error : new Error(String(error)), undefined);
       }
     }
   )
 );
 
 // Optional (for sessions, not required if using JWT)
-// passport.serializeUser((user: any, done) => done(null, user.id));
-// passport.deserializeUser((id, done) => done(null, id));
+passport.serializeUser((user, done) => {
+  done(null, (user as IUser).id);
+});
+
+passport.deserializeUser(async (id: string, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (error: unknown) {
+    done(error instanceof Error ? error : new Error(String(error)), null);
+  }
+});
 
 export default passport;
